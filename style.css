@@ -1,0 +1,80 @@
+/* Colors for the website */
+:root {
+    --background-color: #1b263b;
+    --footer-color: #0d1b2a;
+    --text-color: #e0e1dd;
+    --marker-color: #778da9;
+    --board-color: #415a77;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+h1,
+p,
+a {
+    color: var(--text-color);
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    padding-top: 2rem;
+}
+
+.container {
+    background-color: var(--board-color);
+    width: 50vw;
+    height: 50vw;
+    margin: 3rem auto;
+}
+/* Representation of the game board */
+.board {
+    display: grid;
+    width: 50vw;
+    height: 50vw;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+/* Element where a player can place their marker */
+.marker {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    background-color: var(--background-color);
+}
+
+/* When a marker element has this class, nothing is displayed */
+.empty {
+    background-image: none;
+}
+
+/* When a marker element has this class, player one's marker is displayed */
+.marked-one {
+    background-image: none; /* TODO: Replace with proper marker */
+}
+
+/* When a marker element has this class, player two's marker is displayed */
+.marked-two {
+    background-image: none; /* TODO: Replace with proper marker */
+}
+
+footer {
+    padding: 3rem;
+    background-color: var(--footer-color);
+    position: absolute;
+    width: 100vw;
+    bottom: 0;
+}
+
+footer p {
+    text-align: center;
+}
