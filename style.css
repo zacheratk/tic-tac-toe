@@ -48,7 +48,6 @@ h2 {
 }
 
 .settings input {
-    
     padding: 0.5rem;
     background-color: var(--darker-background-color);
     border: none;
@@ -71,15 +70,15 @@ h2 {
 
 .container {
     background-color: var(--board-color);
-    width: 50vw;
-    height: 50vw;
+    width: min(50vw, 500px);
+    height: min(50vw, 500px);
     margin: 3rem auto;
 }
 /* Representation of the game board */
 .board {
     display: grid;
-    width: 50vw;
-    height: 50vw;
+    width: min(50vw, 500px);
+    height: min(50vw, 500px);
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     grid-gap: 10px;
 }
@@ -97,7 +96,7 @@ h2 {
 
 .marker > p {
     fill: var(--marker-color);
-    font-size: 10vw;
+    font-size: min(10vw, 112px);
     color: var(--marker-color);
 }
 
