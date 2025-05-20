@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* Colors for the website */
 :root {
     --background-color: #1b263b;
     --footer-color: #0d1b2a;
     --text-color: #e0e1dd;
-    --marker-color: #778da9;
+    --marker-color: #a8c6ec;
     --board-color: #415a77;
 }
 
@@ -11,6 +13,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -46,25 +49,19 @@ h1 {
 
 /* Element where a player can place their marker */
 .marker {
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     padding: 10px;
     background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* When a marker element has this class, nothing is displayed */
-.empty {
-    background-image: none;
-}
-
-/* When a marker element has this class, player one's marker is displayed */
-.marked-one {
-    background-image: none; /* TODO: Replace with proper marker */
-}
-
-/* When a marker element has this class, player two's marker is displayed */
-.marked-two {
-    background-image: none; /* TODO: Replace with proper marker */
+.marker > p {
+    fill: var(--marker-color);
+    font-size: 10vw;
+    color: var(--marker-color);
 }
 
 footer {

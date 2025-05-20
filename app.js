@@ -50,7 +50,7 @@ function Gameboard() {
  * either empty or filled (with an x or an o)
  */
 function Cell() {
-    let value = values.EMPTY_MARKER;
+    this.value = values.EMPTY_MARKER;
 
     /**
      * Sets the value of the cell, if the value is known
@@ -82,6 +82,7 @@ function GameController(
     playerTwoName = "Player Two"
 ) {
     const board = Gameboard();
+    let gameRunning = true;
 
     const players = [
         {
@@ -117,7 +118,7 @@ function GameController(
      * @param column Defines what column a given cell is
      */
     const playMove = (row, column) => {
-            if (0 <= row < 3 && 0 <= column < 3 && board.getBoard()[row][column].isEmpty()) {
+            if (gameRunning && 0 <= row < 3 && 0 <= column < 3 && board.getBoard()[row][column].isEmpty()) {
                 board.getBoard()[row][column].setValue(getActivePlayer().marker);
                 return true;
             } else {
@@ -146,6 +147,7 @@ function GameController(
     const checkRow = (row) => {
         const currentBoard = board.getBoard();
         if (!currentBoard[row][0].isEmpty() && currentBoard[row][0].getValue() == currentBoard[row][1].getValue() && currentBoard[row][0].getValue() == currentBoard[row][2].getValue()) {
+            gameRunning = false;
             return true;
         } else {
             return false;
@@ -155,6 +157,7 @@ function GameController(
     const checkCol = (column) => {
         const currentBoard = board.getBoard();
         if (!currentBoard[0][column].isEmpty() && currentBoard[0][column].getValue() == currentBoard[1][column].getValue() && currentBoard[0][column].getValue() == currentBoard[2][column].getValue()) {
+            gameRunning = false;
             return true;
         } else {
             return false;
@@ -164,9 +167,12 @@ function GameController(
     const checkDiags = () => {
         const currentBoard = board.getBoard();
         if (!currentBoard[1][1].isEmpty() && currentBoard[1][1].getValue() == currentBoard[0][0].getValue() && currentBoard[1][1].getValue() == currentBoard[2][2].getValue()) {
+            gameRunning = false;
             return true;
         } else if (!currentBoard[1][1].isEmpty() && currentBoard[0][2].getValue() == currentBoard[1][1].getValue() && currentBoard[0][2].getValue() == currentBoard[2][0].getValue()) {
+            gameRunning = false;
             return true;
+
         } else {
             return false;
         }
@@ -179,7 +185,32 @@ function GameController(
 
     printNewTurn();
 
-    return {playTurn};
+    return {playTurn, board};
 }
 
-const game = GameController();
+const boardElement = document.querySelector(".board");
+
+function displayGame() {
+    
+    const game = GameController();
+    
+    // Array of cell elements that are displayed
+    const cells = [];
+    const board = game.board.getBoard();
+    for (let i = 0; i < board.length; i++) {
+        cells[i] = [];
+        for (let j = 0; j < board[i].length; j++) {
+            const cell = document.createElement("div");
+            cell.className = "marker";
+            cell.addEventListener("click", () => {
+                game.playTurn(i, j);
+                cell.innerHTML = `<p>${board[i][j].getValue()}</p>`;
+            });
+            cells[i][j] = cell;
+            boardElement.appendChild(cell);
+        }
+    }
+    
+}
+
+displayGame();
