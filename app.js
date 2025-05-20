@@ -131,10 +131,11 @@ function GameController(
     const playTurn = (row, column) => {
         if (playMove(row, column)) {
             if (checkBoard(row, column)) {
-                console.log(`${activePlayer.name} wins!`)
+                return `${activePlayer.name} wins!`
                 board.printBoard();
             } else {
                 switchPlayerTurn();
+                return '';
                 printNewTurn();
             }
         }
@@ -183,34 +184,51 @@ function GameController(
         console.log(`${getActivePlayer().name}'s turn.`)
     };
 
+    const isFullBoard = () => {
+        for (let i = 0; i < board.getBoard().length; i++) {
+            for (let j = 0; j < board.getBoard()[i].length; j++) {
+                if (board.getBoard()[i][j].isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     printNewTurn();
 
-    return {playTurn, board};
+    return {playTurn, board, isFullBoard, getActivePlayer, gameRunning};
 }
 
-const boardElement = document.querySelector(".board");
 
 function displayGame() {
-    
     const game = GameController();
-    
+    const boardElement = document.querySelector(".board");
+    const winnerDisplay = document.querySelector("#winner-display")
+    const turnDisplay = document.querySelector("#turn-display")
+
+    turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
     // Array of cell elements that are displayed
-    const cells = [];
     const board = game.board.getBoard();
     for (let i = 0; i < board.length; i++) {
-        cells[i] = [];
         for (let j = 0; j < board[i].length; j++) {
             const cell = document.createElement("div");
             cell.className = "marker";
             cell.addEventListener("click", () => {
-                game.playTurn(i, j);
+                let winner = game.playTurn(i, j);
                 cell.innerHTML = `<p>${board[i][j].getValue()}</p>`;
+                if (winner) {
+                    turnDisplay.textContent = winner;
+                } else if (game.isFullBoard()) {
+                    turnDisplay.textContent = "Tie!";
+                } else if (game.gameRunning()) {
+                    turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
+                }
+                
             });
-            cells[i][j] = cell;
             boardElement.appendChild(cell);
         }
     }
-    
 }
 
 displayGame();
