@@ -132,11 +132,9 @@ function GameController(
         if (playMove(row, column)) {
             if (checkBoard(row, column)) {
                 return `${activePlayer.name} wins!`
-                board.printBoard();
             } else {
                 switchPlayerTurn();
                 return '';
-                printNewTurn();
             }
         }
     }
@@ -195,40 +193,59 @@ function GameController(
         return true;
     }
 
+    const isGameRunning = () => { return gameRunning; }
+
     printNewTurn();
 
-    return {playTurn, board, isFullBoard, getActivePlayer, gameRunning};
+    return {playTurn, board, isFullBoard, getActivePlayer, isGameRunning};
 }
 
 
 function displayGame() {
-    const game = GameController();
     const boardElement = document.querySelector(".board");
-    const winnerDisplay = document.querySelector("#winner-display")
     const turnDisplay = document.querySelector("#turn-display")
+    const gameContainer = document.querySelector(".container");
+    const newGameButton = document.querySelector("#new-game");
+    const playerOneNameInput = document.querySelector("#player-one");
+    const playerTwoNameInput = document.querySelector("#player-two");
 
-    turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
-    // Array of cell elements that are displayed
-    const board = game.board.getBoard();
-    for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board[i].length; j++) {
-            const cell = document.createElement("div");
-            cell.className = "marker";
-            cell.addEventListener("click", () => {
-                let winner = game.playTurn(i, j);
-                cell.innerHTML = `<p>${board[i][j].getValue()}</p>`;
-                if (winner) {
-                    turnDisplay.textContent = winner;
-                } else if (game.isFullBoard()) {
-                    turnDisplay.textContent = "Tie!";
-                } else if (game.gameRunning()) {
-                    turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
-                }
-                
-            });
-            boardElement.appendChild(cell);
+    newGameButton.addEventListener("click", () => {
+        let game;
+        if (playerOneNameInput.value && playerTwoNameInput.value) {
+            game = GameController(playerOneNameInput.value, playerTwoNameInput.value);
+        } else {
+            game = GameController();
         }
-    }
+
+        // "Resets" the board if a previous game was played
+        boardElement.innerHTML = "";
+        
+        gameContainer.hidden = false;
+
+        turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
+        // Array of cell elements that are displayed
+        const board = game.board.getBoard();
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                const cell = document.createElement("div");
+                cell.className = "marker";
+                cell.addEventListener("click", () => {
+                    if (game.isGameRunning()) {
+                        let winner = game.playTurn(i, j);
+                        cell.innerHTML = `<p>${board[i][j].getValue()}</p>`;
+                        if (winner) {
+                            turnDisplay.textContent = winner;
+                        } else if (game.isFullBoard()) {
+                            turnDisplay.textContent = "Tie!";
+                        } else {
+                            turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`;
+                        }
+                    }
+                });
+                boardElement.appendChild(cell);
+            }
+        }
+    })
 }
 
 displayGame();

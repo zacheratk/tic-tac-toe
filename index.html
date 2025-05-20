@@ -9,12 +9,18 @@
 </head>
 <body>
     <h1>Tic Tac Toe</h1>
-    <h2 id="turn-display"> </h2>
-    <div class="container">
+    <div class="settings">
+        <input type="text" name="player-one" id="player-one" placeholder="Player one's name">
+        <input type="text" name="player-two" id="player-two" placeholder="Player two's name">
+        <button id="new-game">New Game</button>
+    </div>
+    
+    <div class="container" hidden>
         <div class="board">
             <!-- Marker elements are added when the javascript is ran -->
         </div>
     </div>
+    <h2 id="turn-display"></h2>
     <footer>
         <p>Created by <a href="http://www.github.com/zacheratk" target="_blank" rel="noopener noreferrer">@zacheratk</a> on GitHub. Created as part of <a href="https://www.theodinproject.com/" target="_blank" rel="noopener noreferrer">The Odin Project</a> curriculum.</p>
     </footer>

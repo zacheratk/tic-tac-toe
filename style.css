@@ -3,7 +3,7 @@
 /* Colors for the website */
 :root {
     --background-color: #1b263b;
-    --footer-color: #0d1b2a;
+    --darker-background-color: #0d1b2a;
     --text-color: #e0e1dd;
     --marker-color: #a8c6ec;
     --board-color: #415a77;
@@ -36,6 +36,37 @@ h2 {
 
 h2 {
     font-size: 2rem;
+}
+
+.settings {
+    width: 60vw;
+    margin: 0 auto;
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.settings input {
+    
+    padding: 0.5rem;
+    background-color: var(--darker-background-color);
+    border: none;
+    border-radius: 8px;
+    color: var(--text-color);
+}
+
+.settings input::placeholder {
+    color: var(--board-color);
+}
+
+.settings button {
+    padding: 0.5rem;
+    background-color: var(--board-color);
+    border: none;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-weight: bold;
 }
 
 .container {
@@ -72,7 +103,7 @@ h2 {
 
 footer {
     padding: 3rem;
-    background-color: var(--footer-color);
+    background-color: var(--darker-background-color);
     position: absolute;
     width: 100vw;
     bottom: 0;
